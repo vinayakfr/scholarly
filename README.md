@@ -1,3 +1,3 @@
-# Welcome to VI-UI!
+# Welcome to Scholarly!
 
-A private personal component library.
+Student portfolio management service.
