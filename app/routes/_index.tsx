@@ -23,7 +23,7 @@ export default function Index() {
           </button>
         </div>
         <div className="flex flex-col gap-5 place-content-start place-items-start px-10 mt-40">
-          <h1 className="text-9xl">Vinayak</h1>
+          <h1 className="text-9xl">Scholarly</h1>
           <p className="text-2xl italic">{subtitle}</p>
           <p className="text-2xl flex-wrap w-[40rem]">
             You personal resume builder which keeps a track of all your
