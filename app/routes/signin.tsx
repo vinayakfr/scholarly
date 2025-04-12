@@ -1,78 +1,62 @@
-import React, { useState } from "react";
+import React from "react";
+import PixelCard from "~/components/PixelCard";
 
 function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    // Basic validation
-    if (!email) {
-      setError("Email is required.");
-      return;
-    }
-    if (!password) {
-      setError("Password is required.");
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    // Proceed with form submission (e.g., API call)
-    console.log("Form submitted:", { email, password });
-  };
-
   return (
-    <div className="flex flex-col place-content-center place-items-center w-full h-screen p-4">
-      <nav className="text-left w-full">
-        <h1 className="text-3xl font-bold">Scholarly</h1>
-      </nav>
-      <div className="flex flex-col place-content-center place-items-center w-full h-full">
-        <div className="flex flex-col place-content-center place-items-start p-3 border border-black rounded-lg w-[40%]">
-          <h2 className="text-center text-2xl font-bold mb-4 w-full">Sign In</h2>
-          <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
-            {error && (
-              <div className="text-red-500 text-sm mb-2">{error}</div>
-            )}
-            <label htmlFor="email" className="text-lg font-medium">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="border border-gray-300 rounded p-2 w-full"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <label htmlFor="password" className="text-lg font-medium">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="border border-gray-300 rounded p-2 w-full"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+    <div className="flex justify-between items-center gap-4 p-4 w-full h-screen bg-black">
+      {/* Left Pane - Sign In Form */}
+      <div className="flex flex-col justify-around items-center gap-6 h-full w-full md:w-[50%] p-6 border border-gray-300 rounded-lg shadow-lg bg-black">
+        <h1 className="text-3xl text-white font-semibold text-center">
+          Log in to your account
+        </h1>
+        <form className="flex flex-col gap-4 w-full">
+          <label htmlFor="email" className="text-lg text-white font-medium">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            className="text-white bg-white/20 border-gray-300 rounded p-2 w-full"
+            placeholder="Enter your email"
+            required
+          />
+
+          <label htmlFor="password" className="text-white text-lg font-medium">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className="text-white bg-white/20 border-gray-300 rounded p-2 w-full"
+            placeholder="Enter your password"
+            required
+          />
+
+          <a href="/dashboard">
             <button
-              type="submit"
-              className="bg-blue-500 text-white rounded p-2 mt-4 hover:bg-blue-600"
+              type="button"
+              className="bg-blue-500 text-white rounded p-2 mt-4 hover:bg-blue-600 w-full"
             >
-              Sign In
+              Log In
             </button>
-          </form>
-        </div>
+          </a>
+
+          <div className="h-[2px] bg-gray-300 w-full" />
+          <p className="text-center text-gray-500">
+            Request access from your faculty in order to proceed
+          </p>
+        </form>
+      </div>
+
+      {/* Right Pane - Pixel Card */}
+      <div className="w-full h-full relative rounded-xl">
+        <PixelCard variant="blue">
+          <h1 className="text-3xl font-bold absolute text-white">
+            Welcome Back!
+          </h1>
+        </PixelCard>
       </div>
     </div>
   );
