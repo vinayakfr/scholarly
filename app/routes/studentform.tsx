@@ -248,7 +248,7 @@ function StudentForm() {
             <TextField
               heading="State"
               type="text"
-              placeholder="Enter Aadhaar number"
+              placeholder="Enter state"
               value={profile.state}
               onChange={(e) =>
                 setProfile({ ...profile, state: e.target.value })

@@ -1,7 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import PixelCard from "~/components/PixelCard";
 
 function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      // API call to authenticate the user
+      const response = await fetch("http://localhost:5050/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ regnum: email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          console.log("Success");
+          setMessage("Success");
+          // Redirect to dashboard
+          window.location.href = "/dashboard";
+        } else {
+          console.log("Failure");
+          setMessage("Failure");
+        }
+      } else {
+        console.log("Failure");
+        setMessage("Failure");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setMessage("Failure");
+    }
+  };
+
   return (
     <div className="flex justify-between items-center gap-4 p-4 w-full h-screen bg-black">
       {/* Left Pane - Sign In Form */}
@@ -9,16 +47,18 @@ function SignIn() {
         <h1 className="text-3xl text-white font-semibold text-center">
           Log in to your account
         </h1>
-        <form className="flex flex-col gap-4 w-full">
+        <form className="flex flex-col gap-4 w-full" onSubmit={handleSignIn}>
           <label htmlFor="email" className="text-lg text-white font-medium">
-            Email
+            Registration NumberQ
           </label>
           <input
-            type="email"
-            id="email"
-            name="email"
+            type="text"
+            id="text"
+            name="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="text-white bg-white/20 border-gray-300 rounded p-2 w-full"
-            placeholder="Enter your email"
+            placeholder="Enter your registration number"
             required
           />
 
@@ -29,19 +69,19 @@ function SignIn() {
             type="password"
             id="password"
             name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="text-white bg-white/20 border-gray-300 rounded p-2 w-full"
             placeholder="Enter your password"
             required
           />
 
-          <a href="/dashboard">
-            <button
-              type="button"
-              className="bg-blue-500 text-white rounded p-2 mt-4 hover:bg-blue-600 w-full"
-            >
-              Log In
-            </button>
-          </a>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white rounded p-2 mt-4 hover:bg-blue-600 w-full"
+          >
+            Log In
+          </button>
 
           <div className="h-[2px] bg-gray-300 w-full" />
           <p className="text-center text-gray-500">
@@ -52,7 +92,7 @@ function SignIn() {
 
       {/* Right Pane - Pixel Card */}
       <div className="w-full h-full relative rounded-xl">
-        <PixelCard variant="blue">
+        <PixelCard variant="yellow">
           <h1 className="text-3xl font-bold absolute text-white">
             Welcome Back!
           </h1>
