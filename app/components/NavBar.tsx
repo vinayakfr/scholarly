@@ -4,8 +4,19 @@ import { motion } from "framer-motion";
 
 export const NavBar = () => {
   return (
-    <div className="z-0">
+    <div className="flex items-center justify-evenly z-0 w-full">
+      <h1 className="text-4xl font-black">Scholarly</h1>
       <SlideTabs />
+      <div className="flex gap-4 items-center">
+        <button className="flex items-center place-content-center border-2 border-black h-8 w-8 rounded-full">
+        🔆
+        </button>
+        <a href="/">
+          <button className="px-2 py-1 bg-black rounded-lg">
+            <span className="text-lg text-white">Log Out</span>
+          </button>
+        </a>
+      </div>
     </div>
   );
 };
