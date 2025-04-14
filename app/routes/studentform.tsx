@@ -12,6 +12,7 @@ function StudentForm() {
   const [profile, setProfile] = React.useState({
     name: "",
     email: "",
+    regnum: "",
     phone: "",
     dob: "",
     aadhaar: "",
@@ -77,7 +78,7 @@ function StudentForm() {
       <form>
         {form === 0 && (
           <div className="flex flex-col gap-5 bg-gray-900/20 border border-white/20 p-5 rounded-lg">
-            <div className="grid grid-cols-2 grid-rows-2 gap-5 w-full">
+            <div className="grid grid-cols-2 grid-rows-3 gap-5 w-full">
               <TextField
                 heading="Name"
                 type="text"
@@ -94,6 +95,15 @@ function StudentForm() {
                 value={profile.aadhaar}
                 onChange={(e) =>
                   setProfile({ ...profile, aadhaar: e.target.value })
+                }
+              />
+              <TextField
+                heading="Registration Num"
+                type="text"
+                placeholder="Enter registration number"
+                value={profile.regnum}
+                onChange={(e) =>
+                  setProfile({ ...profile, regnum: e.target.value })
                 }
               />
               <TextField
@@ -114,16 +124,17 @@ function StudentForm() {
                   setProfile({ ...profile, dob: e.target.value })
                 }
               />
+              <TextField
+                heading="Email"
+                type="email"
+                placeholder="Enter email address"
+                value={profile.email}
+                onChange={(e) =>
+                  setProfile({ ...profile, email: e.target.value })
+                }
+              />
             </div>
-            <TextField
-              heading="Email"
-              type="email"
-              placeholder="Enter email address"
-              value={profile.email}
-              onChange={(e) =>
-                setProfile({ ...profile, email: e.target.value })
-              }
-            />
+
             <div className="flex flex-1 items-center justify-between">
               <button
                 onClick={handlePreviousForm}
