@@ -1,5 +1,4 @@
 import {useEffect, useRef} from "react";
-import './PixelCard.css';
 
 
 class Pixel {
@@ -185,8 +184,9 @@ export default function PixelCard({
     const animationRef = useRef<any>(null);
     const timePreviousRef = useRef(performance.now());
     const reducedMotion = useRef(
+        typeof window !== "undefined" &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ).current;
+    ).current || false;
 
     const variantCfg: VariantConfig = VARIANTS[variant] || VARIANTS.default;
     const finalGap = gap ?? variantCfg.gap;
@@ -297,7 +297,7 @@ export default function PixelCard({
     return (
         <div
             ref={containerRef}
-            className={`pixel-card ${className}`}
+            className={`h-full w-full relative overflow-hidden grid place-items-center aspect-[4/5] border border-[#27272a] rounded-[25px] isolate transition-colors duration-200 ease-[cubic-bezier(0.5,1,0.89,1)] select-none ${className}`}
 
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
@@ -307,7 +307,7 @@ export default function PixelCard({
             tabIndex={finalNoFocus ? -1 : 0}
         >
             <canvas
-                className="pixel-canvas"
+                className="w-full h-full block"
                 ref={canvasRef}
             />
             {children}
