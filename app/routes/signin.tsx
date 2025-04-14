@@ -2,12 +2,25 @@ import React, { useState } from "react";
 import PixelCard from "~/components/PixelCard";
 
 function SignIn() {
-  const [email, setEmail] = useState("");
+  const [regnum, setRegnum] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!regnum || !password) {
+      setMessage("Please fill in all fields.");
+      return;
+    }
+    if (regnum.length < 12) {
+      setMessage("Registration number must be 12 characters long.");
+      return;
+    }
+    if (regnum[0] !== "R" || regnum[1] !== "A") {
+      setMessage("Registration number must start with 'RA'.");
+      return;
+    }
 
     try {
       // API call to authenticate the user
@@ -16,7 +29,7 @@ function SignIn() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ regnum: email, password }),
+        body: JSON.stringify({ regnum: regnum, password }),
       });
 
       if (response.ok) {
@@ -36,7 +49,7 @@ function SignIn() {
       }
     } catch (error) {
       console.error("Error:", error);
-      setMessage("Failure");
+      setMessage("Request access from your faculty in order to proceed");
     }
   };
 
@@ -48,15 +61,15 @@ function SignIn() {
           Log in to your account
         </h1>
         <form className="flex flex-col gap-4 w-full" onSubmit={handleSignIn}>
-          <label htmlFor="email" className="text-lg text-white font-medium">
-            Registration NumberQ
+          <label htmlFor="regnum" className="text-lg text-white font-medium">
+            Registration Number
           </label>
           <input
             type="text"
             id="text"
             name="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={regnum}
+            onChange={(e) => setRegnum(e.target.value)}
             className="text-white bg-white/20 border-gray-300 rounded p-2 w-full"
             placeholder="Enter your registration number"
             required
@@ -75,18 +88,16 @@ function SignIn() {
             placeholder="Enter your password"
             required
           />
-
           <button
+            onClick={handleSignIn}
             type="submit"
             className="bg-blue-500 text-white rounded p-2 mt-4 hover:bg-blue-600 w-full"
           >
             Log In
           </button>
-
-          <div className="h-[2px] bg-gray-300 w-full" />
-          <p className="text-center text-gray-500">
-            Request access from your faculty in order to proceed
-          </p>
+          {message && (
+            <p className="text-center text-red-500 mt-2">{message}</p>
+          )}
         </form>
       </div>
 
