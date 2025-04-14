@@ -1,0 +1,25 @@
+create database Scholarly;
+
+use Scholarly;
+create table Student_Data (
+	Registration_No varchar(50) primary key,
+	Name varchar(100) ,
+    Email varchar(50) ,
+    Aadhaar_No bigint unique ,
+    Phone_no bigint,
+    DOB date,
+    Section varchar(25),
+    Department varchar(255),
+    Degree varchar(255),
+    Current_Sem int,
+    Address varchar(255),
+    City varchar(50),
+    State varchar(50)
+);
+
+create table Student_SignIn (
+	Registration_No varchar(50) primary key,
+    Password int,
+    foreign key (Registration_No) references Students_Data(Registration_No)
+);
+
