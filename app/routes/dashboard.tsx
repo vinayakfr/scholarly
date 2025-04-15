@@ -1,35 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavBar } from "~/components/NavBar";
+import NewAchievement from "~/components/student/NewAchievement";
 
 function Dashboard() {
+  const [showPopup, setShowPopup] = useState(false);
+  const [achievements, setAchievements] = useState<
+    { title: string; des: string; date: Date }[]
+  >([]);
+
+  const handleAddClick = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
+  const handleAddAchievement = (newAchievement: {
+    title: string;
+    des: string;
+    date: string;
+  }) => {
+    setAchievements((prev) => [
+      ...prev,
+      {
+        title: newAchievement.title,
+        des: newAchievement.des,
+        date: new Date(newAchievement.date),
+      },
+    ]);
+    setShowPopup(false);
+  };
+
   return (
     <div className="flex flex-col place-content-center p-4 w-full bg-white">
-      <div className="flex justify-center">
-        <NavBar />
+      <NavBar />
+      <div className="flex items-start w-full mt-10 mb-5">
+        <button
+          className="text-xl text-white px-3 py-2 bg-black rounded-lg"
+          onClick={handleAddClick}
+        >
+          Add +
+        </button>
       </div>
-      <div className="flex gap-5 justify-between w-full mt-20">
-        <div className="flex-1 bg-black p-2 rounded-xl">
-          <h1 className="text-xl text-white font-semibold">Achievements</h1>
+      <div className="flex gap-5 justify-between w-full">
+        <div className="flex-1 bg-black p-2 rounded-xl w-[70%]">
+          <h1 className="text-2xl text-white font-semibold">Achievements</h1>
           <div className="flex flex-col gap-3 w-full mt-3 h-[15rem] overflow-y-auto">
-            <Achievments
-              title={"Achievement 1"}
-              des={"I won a coding competition."}
-              date={new Date("2005-09-12")}
-            />
-            <Achievments
-              title={"Achievement 2"}
-              des={"Participated in an internation hackathon"}
-              date={new Date("2005-09-12")}
-            />
-            <Achievments
-              title={"Achievement 3"}
-              des={"I volunteered at the animal shelter"}
-              date={new Date("2005-09-12")}
-            />
+            {achievements.map((achievement, index) => (
+              <Achievments
+                key={index}
+                title={achievement.title}
+                des={achievement.des}
+                date={achievement.date}
+              />
+            ))}
           </div>
         </div>
         <div className="flex-1 border border-black p-2 rounded-xl"></div>
       </div>
+
       <div className="flex justify-stretch">
         <div className="flex flex-col gap-5 mt-5 w-full">
           <h1 className="text-3xl text-black font-semibold px-2">Scores</h1>
@@ -41,6 +71,21 @@ function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Pop-up for New Achievement */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-lg">
+            <button
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+              onClick={handleClosePopup}
+            >
+              ✕
+            </button>
+            <NewAchievement onAddAchievement={handleAddAchievement} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -57,7 +102,7 @@ const Achievments = ({
   date: Date;
 }) => {
   return (
-    <div className="flex-1 bg-white p-2 rounded-xl">
+    <div className="flex-1 h-40 bg-white p-2 rounded-xl">
       <h1 className="font-semibold">{title}</h1>
       <p>{des}</p>
       <p>{date.toLocaleDateString()}</p>
