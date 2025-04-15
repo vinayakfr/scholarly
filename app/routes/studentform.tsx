@@ -265,7 +265,12 @@ function StudentForm() {
                 setProfile({ ...profile, state: e.target.value })
               }
             />
-            <div className="flex flex-1 items-center justify-end">
+            <div className="flex flex-1 items-center justify-between"> <button
+                onClick={handlePreviousForm}
+                className="text-white bg-white/20 h-10 w-24 rounded"
+              >
+                Back
+              </button>
               <button
                 type="button"
                 onClick={register}
