@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
+import { Link } from "@remix-run/react";
 
 export const NavBar = () => {
   return (
@@ -9,7 +10,7 @@ export const NavBar = () => {
       <SlideTabs />
       <div className="flex gap-4 items-center">
         <button className="flex items-center place-content-center border-2 border-black h-8 w-8 rounded-full">
-        🔆
+          🔆
         </button>
         <a href="/">
           <button className="px-2 py-1 bg-black rounded-lg">
@@ -29,16 +30,19 @@ const SlideTabs = () => {
   });
   return (
     <>
-      <ul onMouseLeave={() => {
-        setPosition((pv) => ({
-          ...pv,
-          opacity: 0,
-        }));
-      }} className="relative mx-auto flex w-fit rounded-full border-2 border-black bg-white p-1">
-        <Tabs setPosition={setPosition}>Route 1</Tabs>
-        <Tabs setPosition={setPosition}>Route 2</Tabs>
-        <Tabs setPosition={setPosition}>Route 3</Tabs>
-        <Tabs setPosition={setPosition}>Route 3</Tabs>
+      <ul
+        onMouseLeave={() => {
+          setPosition((pv) => ({
+            ...pv,
+            opacity: 0,
+          }));
+        }}
+        className="relative mx-auto flex w-fit rounded-full border-2 border-black bg-white p-1"
+      >
+        <Tabs setPosition={setPosition} route={"/dashboard"}>Home</Tabs>
+        <Tabs setPosition={setPosition} route={"/profile"}>Profile</Tabs>
+        <Tabs setPosition={setPosition} route={""}>Route 3</Tabs>
+        <Tabs setPosition={setPosition} route={""}>Route 3</Tabs>
         <Cursor position={position} />
       </ul>
     </>
@@ -46,6 +50,7 @@ const SlideTabs = () => {
 };
 
 const Tabs = ({
+  route,
   children,
   setPosition,
 }: {
@@ -53,25 +58,28 @@ const Tabs = ({
   setPosition: React.Dispatch<
     React.SetStateAction<{ left: number; width: number; opacity: number }>
   >;
+  route: string;
 }) => {
   const ref = useRef<HTMLLIElement>(null);
   return (
-    <li
-      ref={ref}
-      onMouseEnter={() => {
-        if (ref.current) {
-          const { width } = ref.current.getBoundingClientRect();
-          setPosition({
-            left: ref.current.offsetLeft,
-            width: width,
-            opacity: 1,
-          });
-        }
-      }}
-      className="relative z-10 block cursor-pointer px-3 py-1 text-xs uppercase text-white mix-blend-difference md:px-5 md:py-3 md:text-base"
-    >
-      {children}
-    </li>
+    <Link to={route}>
+      <li
+        ref={ref}
+        onMouseEnter={() => {
+          if (ref.current) {
+            const { width } = ref.current.getBoundingClientRect();
+            setPosition({
+              left: ref.current.offsetLeft,
+              width: width,
+              opacity: 1,
+            });
+          }
+        }}
+        className="relative z-10 block cursor-pointer px-3 py-1 text-xs uppercase text-white mix-blend-difference md:px-5 md:py-3 md:text-base"
+      >
+        {children}
+      </li>
+    </Link>
   );
 };
 
