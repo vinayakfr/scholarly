@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@remix-run/react";
+import { CgDarkMode } from "react-icons/cg";
 
 export const NavBar = () => {
   return (
@@ -9,8 +10,8 @@ export const NavBar = () => {
       <h1 className="text-4xl font-black">Scholarly</h1>
       <SlideTabs />
       <div className="flex gap-4 items-center">
-        <button className="flex items-center place-content-center border-2 border-black h-8 w-8 rounded-full">
-          🔆
+        <button className="flex items-center place-content-center rounded-full">
+          <CgDarkMode className="size-7"/>
         </button>
         <a href="/">
           <button className="px-2 py-1 bg-black rounded-lg">
