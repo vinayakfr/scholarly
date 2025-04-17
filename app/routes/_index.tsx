@@ -32,7 +32,7 @@ export default function Index() {
             </motion.div>
 
             <motion.div
-              className="flex items-center gap-10 text-2xl text-white italic"
+              className="flex items-center gap-10 text-2xl text-white italic "
               initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{
