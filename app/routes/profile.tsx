@@ -6,6 +6,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import Scholarly from "~/components/Scholarly";
 import { PiStudentBold } from "react-icons/pi";
 import { SiGoogleclassroom } from "react-icons/si";
+import Wow from "~/components/Wow";
 
 function Profile() {
   return (
@@ -72,9 +73,11 @@ function Profile() {
           <div className="w-full">
             <Scholarly />
           </div>
-          <div className="flex items-center justify-between w-full">
-            <div></div>
-            <div className="flex flex-col gap-3 flex-1 items-center justify-between rounded-xl bg-[#222] p-3">
+          <div className="flex flex-1 items-center justify-between w-full bg-[#222] rounded-xl p-3">
+            <div>
+              <Wow />
+            </div>
+            <div className="flex flex-col gap-3 items-center justify-between w-full">
               <div className="flex items-center justify-between bg-white w-full rounded-xl p-2">
                 <h1 className="text-xl font-semibold">Parameter 1</h1>
                 <button className="text-white bg-[#222] rounded px-3 py-2 hover:scale-95 transition duration-200">
