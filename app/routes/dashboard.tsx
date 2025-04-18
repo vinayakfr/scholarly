@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { NavBar } from "~/components/NavBar";
 import NewAchievement from "~/components/student/NewAchievement";
-import Threads from "~/components/Waves";
 
 function Dashboard() {
   const [showPopup, setShowPopup] = useState(false);
@@ -17,38 +16,80 @@ function Dashboard() {
     setShowPopup(false);
   };
 
-  const handleAddAchievement = (newAchievement: {
+  const handleAddAchievement = async (newAchievement: {
     title: string;
     des: string;
     date: string;
   }) => {
-    setAchievements((prev) => [
-      ...prev,
-      {
-        title: newAchievement.title,
-        des: newAchievement.des,
-        date: new Date(newAchievement.date),
-      },
-    ]);
-    setShowPopup(false);
+    try {
+      // Send the new achievement to the backend
+      const response = await fetch("http://localhost:5050/api/addachievement", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          achievement: newAchievement.title, // Match backend field name
+          achievedate: newAchievement.date, // Match backend field name
+          achievedesc: newAchievement.des, // Match backend field name
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to add achievement");
+      }
+  
+      const data = await response.json();
+      console.log("Achievement added successfully:", data);
+  
+      // Close the popup
+      setShowPopup(false);
+    } catch (error) {
+      console.error("Error adding achievement:", error);
+      alert("Failed to add achievement. Please try again.");
+    }
   };
+
+  // const [achievementDetails, setAchievementDetails] = React.useState({
+  //   title: "",
+  //   des: "",
+  //   date: ""
+  // }) 
+
+  // const getAchievement = async () => {
+  //   try {
+  //     // Fetch achievements from the backend
+  //     const response = await fetch("http://localhost:5050/api/showachievement", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch achievements");
+  //     }
+  
+  //     const data = await response.json();
+  //     console.log("Fetched achievements:", data);
+  
+  //     // Update the achievements state with the fetched data
+  //     setAchievements(
+  //       data.map((achievement: { title: string; des: string; date: string }) => ({
+  //         title: achievement.title,
+  //         des: achievement.des,
+  //         date: new Date(achievement.date),
+  //       }))
+  //     );
+  //   } catch (error) {
+  //     console.error("Error fetching the achievements of the user:", error);
+  //     alert("Failed to fetch achievements. Please try again.");
+  //   }
+  // };
 
   return (
     <div className="flex flex-col place-content-center p-4 w-full bg-white">
       <NavBar />
-      {/* <div className="bg-[#222] h-[350px]">
-        <div
-          className="bg-black rounded-2xl"
-          style={{ width: "100%", height: "100%", position: "relative" }}
-        >
-          <Threads
-            amplitude={1.5}
-            distance={0.2}
-            enableMouseInteraction={true}
-            color={[30, 40, 40]}
-          />
-        </div>
-      </div> */}
       <div className="flex items-start w-full mt-10 mb-5">
         <button
           className="text-xl text-white px-3 py-2 bg-black rounded-lg"
@@ -89,13 +130,7 @@ function Dashboard() {
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-lg">
-            <button
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
-              onClick={handleClosePopup}
-            >
-              ✕
-            </button>
-            <NewAchievement onAddAchievement={handleAddAchievement} />
+            <NewAchievement onAddAchievement={handleAddAchievement} handleClosePopup={handleClosePopup}/>
           </div>
         </div>
       )}

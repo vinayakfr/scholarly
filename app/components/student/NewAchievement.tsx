@@ -2,9 +2,10 @@ import React, { useState } from "react";
 
 interface NewAchievementProps {
   onAddAchievement: (achievement: { title: string; des: string; date: string }) => void;
+  handleClosePopup: () => void;
 }
 
-function NewAchievement({ onAddAchievement }: NewAchievementProps) {
+function NewAchievement({ onAddAchievement, handleClosePopup }: NewAchievementProps) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [details, setDetails] = useState("");
@@ -58,11 +59,7 @@ function NewAchievement({ onAddAchievement }: NewAchievementProps) {
       <div className="flex items-center justify-between w-full">
         <button
           className="text-xl text-white font-medium bg-gray-400 hover:bg-gray-600 transition-all duration-300 h-12 w-40 rounded-lg"
-          onClick={() => {
-            setTitle("");
-            setDate("");
-            setDetails("");
-          }}
+          onClick={handleClosePopup}
         >
           Discard
         </button>
