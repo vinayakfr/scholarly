@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useDebugValue, useEffect } from "react";
 import Carousel from "~/components/FacultyCarousel";
 import { NavBar } from "~/components/NavBar";
 import AchievementSlider from "~/components/student/AchievementSlider";
@@ -8,6 +8,76 @@ import { PiStudentBold } from "react-icons/pi";
 import { SiGoogleclassroom } from "react-icons/si";
 
 function Profile() {
+  const [profile, setProfile] = React.useState<{
+    name: string;
+    regnum: string;
+    email: string;
+    section: string;
+  }>({
+    name: "",
+    regnum: "",
+    email: "",
+    section: "",
+  });
+
+  const fetchProfile = async () => {
+    try {
+      const response = await fetch("http://localhost:5050/api/profiledetails", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.log("Error loading user details");
+        return;
+      }
+
+      const result = await response.json();
+      console.log("Data fetched successfully", result);
+
+      setProfile(result.data);
+    } catch (error) {
+      console.log("Cannot fetch user details!", error);
+    }
+  };
+
+  const [todos, setTodos] = React.useState<
+    {
+      id: number;
+      title: string;
+      date: Date;
+    }[]
+  >([]);
+
+  const fetchTodo = async () => {
+    try {
+      const response = await fetch("http://localhost:5050/api/todo", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.log("Error fetching to-do's");
+        return;
+      }
+
+      const checklist = await response.json();
+      console.log("Data fetch successfully!");
+
+      setTodos(checklist.data);
+    } catch (error) {
+      console.log("Cannot fetch to-do's!", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile(); fetchTodo();
+  }, []);
+
   return (
     <div className="flex flex-col place-content-center p-4 w-full bg-white">
       <NavBar />
@@ -15,19 +85,19 @@ function Profile() {
         <div className="flex flex-col gap-3 flex-1">
           <div className="flex-1 bg-[#222] rounded-xl p-3">
             <h1 className="text-3xl text-white font-semibold">
-              Hello, Vinayak!
+              Hello, {profile.name || "Loading..."}!
             </h1>
             <div className="flex items-center gap-2 text-gray-100/50">
               <PiStudentBold className="size-5" />
-              <h1 className="text-lg">RA2311026010761</h1>
+              <h1 className="text-lg">{profile.regnum || "Loading..."}</h1>
             </div>
             <div className="flex items-center gap-2 text-gray-100/50">
               <MdOutlineEmail className="size-5" />
-              <h1 className="text-lg">vs2052@srmist.edu.in</h1>
+              <h1 className="text-lg">{profile.email || "Loading..."}</h1>
             </div>
             <div className="flex items-center gap-2 text-gray-100/50">
               <SiGoogleclassroom className=" size-5" />
-              <h1 className="text-lg">AC2</h1>
+              <h1 className="text-lg">{profile.section || "Loading..."}</h1>
             </div>
           </div>
           <div className="bg-[#222] flex items-center place-content-center rounded-xl w-full p-4">
@@ -45,8 +115,13 @@ function Profile() {
               <button className="text-black text-2xl">+</button>
             </div>
             <div className="flex flex-col gap-2 w-full min-h-auto max-h-[350px] overflow-x-scroll">
-              <TodoCard title="Get good grades" date={new Date()} />
-              <TodoCard title="Complete Course" date={new Date()} />
+              {todos.map((todo) => (
+                <TodoCard
+                  key={todo.id}
+                  title={todo.title}
+                  date={new Date(todo.date)}
+                />
+              ))}
             </div>
           </div>
         </div>
