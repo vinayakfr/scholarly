@@ -6,7 +6,6 @@ import { MdOutlineEmail } from "react-icons/md";
 import Scholarly from "~/components/Scholarly";
 import { PiStudentBold } from "react-icons/pi";
 import { SiGoogleclassroom } from "react-icons/si";
-import Wow from "~/components/Wow";
 
 function Profile() {
   return (
@@ -74,23 +73,20 @@ function Profile() {
             <Scholarly />
           </div>
           <div className="flex flex-1 items-center justify-between w-full bg-[#222] rounded-xl p-3">
-            <div>
-              <Wow />
-            </div>
-            <div className="flex flex-col gap-3 items-center justify-between w-full">
-              <div className="flex items-center justify-between bg-white w-full rounded-xl p-2">
-                <h1 className="text-xl font-semibold">Parameter 1</h1>
+            <div className="grid grid-cols-3 gap-3 items-center justify-between w-full">
+              <div className="flex flex-col items-start justify-between bg-white w-full rounded-xl p-2 h-[250px]">
+                <h1 className="text-xl font-semibold">Parameter 3</h1>
                 <button className="text-white bg-[#222] rounded px-3 py-2 hover:scale-95 transition duration-200">
                   View
                 </button>
               </div>
-              <div className="flex items-center justify-between bg-white w-full rounded-xl p-2">
-                <h1 className="text-xl font-semibold">Parameter 2</h1>
+              <div className="flex flex-col items-start justify-between bg-white w-full rounded-xl p-2 h-[250px]">
+                <h1 className="text-xl font-semibold">Parameter 3</h1>
                 <button className="text-white bg-[#222] rounded px-3 py-2 hover:scale-95 transition duration-200">
                   View
                 </button>
               </div>
-              <div className="flex items-center justify-between bg-white w-full rounded-xl p-2">
+              <div className="flex flex-col items-start justify-between bg-white w-full rounded-xl p-2 h-[250px]">
                 <h1 className="text-xl font-semibold">Parameter 3</h1>
                 <button className="text-white bg-[#222] rounded px-3 py-2 hover:scale-95 transition duration-200">
                   View

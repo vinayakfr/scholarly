@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavBar } from "~/components/NavBar";
 import NewAchievement from "~/components/student/NewAchievement";
+import Threads from "~/components/Waves";
 
 function Dashboard() {
   const [showPopup, setShowPopup] = useState(false);
@@ -35,6 +36,19 @@ function Dashboard() {
   return (
     <div className="flex flex-col place-content-center p-4 w-full bg-white">
       <NavBar />
+      {/* <div className="bg-[#222] h-[350px]">
+        <div
+          className="bg-black rounded-2xl"
+          style={{ width: "100%", height: "100%", position: "relative" }}
+        >
+          <Threads
+            amplitude={1.5}
+            distance={0.2}
+            enableMouseInteraction={true}
+            color={[30, 40, 40]}
+          />
+        </div>
+      </div> */}
       <div className="flex items-start w-full mt-10 mb-5">
         <button
           className="text-xl text-white px-3 py-2 bg-black rounded-lg"
@@ -62,8 +76,7 @@ function Dashboard() {
 
       <div className="flex justify-stretch">
         <div className="flex flex-col gap-5 mt-5 w-full">
-          <h1 className="text-3xl text-black font-semibold px-2">Scores</h1>
-          <div className="grid grid-cols-2 grid-rows-2 gap-5 w-full">
+          <div className="grid grid-cols-4 grid-rows-1 gap-5 w-full">
             <Cards topic={"ATS Score"} score={80} />
             <Cards topic={"GPA"} score={90} />
             <Cards topic={"Achievement Target"} score={70} />
