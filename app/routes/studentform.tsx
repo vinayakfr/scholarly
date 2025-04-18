@@ -25,27 +25,6 @@ function StudentForm() {
     state: "",
   });
 
-  const fetchProfile = async () => {
-    try {
-      const response = await fetch("http://localhost:5050/api/profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(profile),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch profile");
-      }
-
-      const data = await response.json();
-      console.log("Profile fetched successfully:", data);
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-    }
-  };
-
   const register = async () => {
     try {
       const response = await fetch("http://localhost:5050/api/profile", {
@@ -68,10 +47,6 @@ function StudentForm() {
       alert("Registration failed. Please try again.");
     }
   };
-
-  React.useEffect(() => {
-    fetchProfile();
-  }, []);
 
   return (
     <div className="h-screen w-full flex place-content-center place-items-center bg-black">
@@ -216,7 +191,7 @@ function StudentForm() {
               </select>
             </div>
             <TextField
-              heading="Current Semster"
+              heading="Current Semester"
               type="text"
               placeholder="Enter current semester"
               value={profile.sem}
@@ -265,7 +240,8 @@ function StudentForm() {
                 setProfile({ ...profile, state: e.target.value })
               }
             />
-            <div className="flex flex-1 items-center justify-between"> <button
+            <div className="flex flex-1 items-center justify-between">
+              <button
                 onClick={handlePreviousForm}
                 className="text-white bg-white/20 h-10 w-24 rounded"
               >
