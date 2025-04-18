@@ -29,9 +29,9 @@ function Dashboard() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          achievement: newAchievement.title, // Match backend field name
-          achievedate: newAchievement.date, // Match backend field name
-          achievedesc: newAchievement.des, // Match backend field name
+          achievement: newAchievement.title,
+          achievedate: newAchievement.date, 
+          achievedesc: newAchievement.des,
         }),
       });
   
