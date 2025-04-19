@@ -4,10 +4,7 @@ import NewAchievement from "~/components/student/NewAchievement";
 
 function Dashboard() {
   const [showPopup, setShowPopup] = useState(false);
-  const [achievements, setAchievements] = useState<
-    { title: string; des: string; date: Date }[]
-  >([]);
-
+  
   const handleAddClick = () => {
     setShowPopup(true);
   };
@@ -30,18 +27,18 @@ function Dashboard() {
         },
         body: JSON.stringify({
           achievement: newAchievement.title,
-          achievedate: newAchievement.date, 
+          achievedate: newAchievement.date,
           achievedesc: newAchievement.des,
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to add achievement");
       }
-  
+
       const data = await response.json();
       console.log("Achievement added successfully:", data);
-  
+
       // Close the popup
       setShowPopup(false);
     } catch (error) {
@@ -50,69 +47,68 @@ function Dashboard() {
     }
   };
 
-  // const [achievementDetails, setAchievementDetails] = React.useState({
-  //   title: "",
-  //   des: "",
-  //   date: ""
-  // }) 
+  const [myAchievements, setMyAchievements] = useState<
+    {
+      id: number;
+      achievement: string;
+      date: string;
+      description: string;
+    }[]
+  >([]);
 
-  // const getAchievement = async () => {
-  //   try {
-  //     // Fetch achievements from the backend
-  //     const response = await fetch("http://localhost:5050/api/showachievement", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  
-  //     if (!response.ok) {
-  //       throw new Error("Failed to fetch achievements");
-  //     }
-  
-  //     const data = await response.json();
-  //     console.log("Fetched achievements:", data);
-  
-  //     // Update the achievements state with the fetched data
-  //     setAchievements(
-  //       data.map((achievement: { title: string; des: string; date: string }) => ({
-  //         title: achievement.title,
-  //         des: achievement.des,
-  //         date: new Date(achievement.date),
-  //       }))
-  //     );
-  //   } catch (error) {
-  //     console.error("Error fetching the achievements of the user:", error);
-  //     alert("Failed to fetch achievements. Please try again.");
-  //   }
-  // };
+  const fetchAchievements = async () => {
+    try {
+      const response = await fetch("http://localhost:5050/api/myachievements", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.log("Error loading achievements!");
+        return;
+      }
+
+      const achievements = await response.json();
+      console.log("Achievements fetched successfully!", achievements);
+
+      setMyAchievements(achievements.data);
+    } catch (error) {
+      console.log("Cannot fetch achievements!", error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchAchievements();
+  }, []);
 
   return (
     <div className="flex flex-col place-content-center p-4 w-full bg-white">
       <NavBar />
       <div className="flex items-start w-full mt-10 mb-5">
         <button
-          className="text-xl text-white px-3 py-2 bg-black rounded-lg"
+          className="text-xl text-white px-3 py-2 bg-[#222] rounded-lg"
           onClick={handleAddClick}
         >
           Add +
         </button>
       </div>
       <div className="flex gap-5 justify-between w-full">
-        <div className="flex-1 bg-black p-2 rounded-xl w-[70%]">
+        <div className="flex-1 bg-[#222] p-2 rounded-xl w-[70%]">
           <h1 className="text-2xl text-white font-semibold">Achievements</h1>
           <div className="flex flex-col gap-3 w-full mt-3 h-[15rem] overflow-y-auto">
-            {achievements.map((achievement, index) => (
+            {myAchievements.map((myAchievements, index) => (
               <Achievments
-                key={index}
-                title={achievement.title}
-                des={achievement.des}
-                date={achievement.date}
+                key={myAchievements.id}
+                title={myAchievements.achievement}
+                des={myAchievements.description}
+                date={myAchievements.date}
               />
             ))}
           </div>
         </div>
-        <div className="flex-1 border border-black p-2 rounded-xl"></div>
+        <div className="flex-1 border border-[#222] p-2 rounded-xl"></div>
       </div>
 
       <div className="flex justify-stretch">
@@ -128,9 +124,12 @@ function Dashboard() {
 
       {/* Pop-up for New Achievement */}
       {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-[#222] bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-lg">
-            <NewAchievement onAddAchievement={handleAddAchievement} handleClosePopup={handleClosePopup}/>
+            <NewAchievement
+              onAddAchievement={handleAddAchievement}
+              handleClosePopup={handleClosePopup}
+            />
           </div>
         </div>
       )}
@@ -147,20 +146,20 @@ const Achievments = ({
 }: {
   title: string;
   des: string;
-  date: Date;
+  date: string;
 }) => {
   return (
     <div className="flex-1 h-40 bg-white p-2 rounded-xl">
       <h1 className="font-semibold">{title}</h1>
       <p>{des}</p>
-      <p>{date.toLocaleDateString()}</p>
+      <p>{new Date(date).toDateString()}</p>
     </div>
   );
 };
 
 const Cards = ({ topic, score }: { topic: string; score: number }) => {
   return (
-    <div className="flex items-end justify-between bg-black p-2 rounded-xl flex-1">
+    <div className="flex items-end justify-between bg-[#222] p-2 rounded-xl flex-1">
       <h1 className="text-white text-6xl font-bold">{score}%</h1>
       <p className="text-white text-xl font-medium">{topic}</p>
     </div>
