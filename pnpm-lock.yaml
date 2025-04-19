@@ -44,7 +44,7 @@ dependencies:
   three:
     specifier: ^0.175.0
     version: 0.175.0
-  vi-ui:
+  scholarly:
     specifier: 'file:'
     version: file:(typescript@5.8.3)
 
@@ -7373,7 +7373,7 @@ packages:
   file:(typescript@5.8.3):
     resolution: {directory: '', type: directory}
     id: 'file:'
-    name: vi-ui
+    name: scholarly
     engines: {node: '>=20.0.0'}
     dependencies:
       '@remix-run/node': 2.16.5(typescript@5.8.3)

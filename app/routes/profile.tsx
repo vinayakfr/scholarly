@@ -75,15 +75,16 @@ function Profile() {
   };
 
   useEffect(() => {
-    fetchProfile(); fetchTodo();
+    fetchProfile();
+    fetchTodo();
   }, []);
 
   return (
     <div className="flex flex-col place-content-center p-4 w-full bg-white">
       <NavBar />
-      <div className="flex flex-1 items-start justify-between gap-4 w-full mt-20">
-        <div className="flex flex-col gap-3 flex-1">
-          <div className="flex-1 bg-[#222] rounded-xl p-3">
+      <div className="flex flex-col lg:flex-row items-start justify-between gap-4 w-full mt-20">
+        <div className="flex flex-col gap-3 w-full">
+          <div className="flex-1 bg-[#222] rounded-xl p-3 w-full">
             <h1 className="text-3xl text-white font-semibold">
               Hello, {profile.name || "Loading..."}!
             </h1>
@@ -125,10 +126,10 @@ function Profile() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-5 items-start">
-          <div className="flex gap-5">
+        <div className="flex flex-col gap-5 items-start w-full">
+          <div className="flex flex-col lg:flex-row gap-5 w-full">
             <Carousel />
-            <div className="flex flex-col gap-5 border border-black rounded-xl p-3">
+            <div className="flex flex-col flex-1 gap-5 border border-black rounded-xl w-full p-3">
               <div>
                 <label className="text-xl font-medium">Parameter 1</label>
                 <AchievementSlider progress={50} />
@@ -147,26 +148,11 @@ function Profile() {
           <div className="w-full">
             <Scholarly />
           </div>
-          <div className="flex flex-1 items-center justify-between w-full bg-[#222] rounded-xl p-3">
-            <div className="grid grid-cols-3 gap-3 items-center justify-between w-full">
-              <div className="flex flex-col items-start justify-between bg-white w-full rounded-xl p-2 h-[250px]">
-                <h1 className="text-xl font-semibold">Parameter 3</h1>
-                <button className="text-white bg-[#222] rounded px-3 py-2 hover:scale-95 transition duration-200">
-                  View
-                </button>
-              </div>
-              <div className="flex flex-col items-start justify-between bg-white w-full rounded-xl p-2 h-[250px]">
-                <h1 className="text-xl font-semibold">Parameter 3</h1>
-                <button className="text-white bg-[#222] rounded px-3 py-2 hover:scale-95 transition duration-200">
-                  View
-                </button>
-              </div>
-              <div className="flex flex-col items-start justify-between bg-white w-full rounded-xl p-2 h-[250px]">
-                <h1 className="text-xl font-semibold">Parameter 3</h1>
-                <button className="text-white bg-[#222] rounded px-3 py-2 hover:scale-95 transition duration-200">
-                  View
-                </button>
-              </div>
+          <div className="flex flex-1 items-center justify-between h-auto w-full bg-[#222] rounded-xl p-3">
+            <div className="grid grid-cols-1 gap-3 items-center justify-between w-full">
+              <ParameterCard title={"Achievements"} link={""} />
+              <ParameterCard title={"Courses"} link={""} />
+              <ParameterCard title={"Certifications"} link={""} />
             </div>
           </div>
         </div>
@@ -182,6 +168,23 @@ const TodoCard = ({ title, date }: { title: string; date: Date }) => {
     <div className="text-white bg-[#222] p-2 w-full rounded-xl">
       <h1 className="text-lg font-medium">{title}</h1>
       <p className="italic">{date.toDateString()}</p>
+    </div>
+  );
+};
+
+const ParameterCard = ({ title, link }: { title: string; link: string }) => {
+  return (
+    <div className="w-full">
+      <div className="flex flex-col items-start justify-between bg-white rounded-xl p-4 w-full">
+        <h1 className="text-xl font-semibold">{title}</h1>
+        <div className="flex justify-end w-full">
+          <a href={link}>
+            <button className="text-white bg-[#222] rounded px-3 py-2 hover:scale-95 transition duration-200">
+              View
+            </button>
+          </a>
+        </div>
+      </div>
     </div>
   );
 };

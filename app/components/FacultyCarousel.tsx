@@ -91,8 +91,23 @@ export default function Carousel({
   loop = true,
   round = false,
 }: CarouselProps): JSX.Element {
+  const [itemWidth, setItemWidth] = useState<number>(baseWidth);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      const viewportWidth = window.innerWidth;
+      setItemWidth(Math.min(viewportWidth - 65, baseWidth)); // Adjust width dynamically
+    };
+
+    updateWidth(); // Set initial width
+    window.addEventListener("resize", updateWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, [baseWidth]);
+
   const containerPadding = 16;
-  const itemWidth = baseWidth - containerPadding * 2;
   const trackItemOffset = itemWidth + GAP;
 
   const carouselItems = loop ? [...items, items[0]] : items;
@@ -190,10 +205,6 @@ export default function Carousel({
           ? "rounded-full border border-white"
           : "rounded-[24px] border border-[#222]"
       }`}
-      style={{
-        width: `${baseWidth}px`,
-        ...(round && { height: `${baseWidth}px` }),
-      }}
     >
       <motion.div
         className="flex"
@@ -224,7 +235,7 @@ export default function Carousel({
           return (
             <motion.div
               key={index}
-              className={`relative shrink-0 flex flex-col ${
+              className={`relative flex-shrink-0 flex flex-col ${
                 round
                   ? "items-center justify-center text-center bg-[#060606] border-0"
                   : "items-start justify-between bg-[#222] border border-[#222] rounded-[12px]"

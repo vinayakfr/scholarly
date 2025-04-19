@@ -1,18 +1,34 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 interface AchievementSliderProps {
-  progress: number; // Progress percentage (0-100)
+  progress: number;
 }
 
 function AchievementSlider({ progress }: AchievementSliderProps) {
-  const width = 400; // Total width of the slider
-  const height = 20; // Height of the slider
+  const [width, setWidth] = useState(0);
+  const sliderRef = useRef<HTMLDivElement>(null); 
+  const height = 20; 
+
+  useEffect(() => {
+
+    const updateWidth = () => {
+      if (sliderRef.current) {
+        setWidth(sliderRef.current.offsetWidth);
+      }
+    };
+
+    updateWidth();
+
+    window.addEventListener("resize", updateWidth);
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div ref={sliderRef} className="w-full flex flex-col items-center">
       <svg width={width} height={height} className="block">
-        {/* Background Bar */}
         <rect
           x="0"
           y="0"
@@ -21,7 +37,6 @@ function AchievementSlider({ progress }: AchievementSliderProps) {
           fill="#e5e5e5"
           rx="10"
         />
-        {/* Progress Bar */}
         <motion.rect
           x="0"
           y="0"
@@ -33,7 +48,6 @@ function AchievementSlider({ progress }: AchievementSliderProps) {
           transition={{ duration: 0.5, ease: "easeInOut" }}
         />
       </svg>
-      {/* <p className="text-sm font-medium mt-2">{progress}%</p> */}
     </div>
   );
 }

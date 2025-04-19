@@ -37,7 +37,7 @@ function Scholarly() {
   }, []);
 
   return (
-    <div className="flex items-center justify-between rounded-xl border border-black p-3">
+    <div className="grid grid-cols-3 grid-rows-3 place-content-center place-items-center lg:flex gap-2 rounded-xl border border-black p-3">
       {letters.map((letter, index) => (
         <KeyCap
           key={index}
@@ -49,7 +49,7 @@ function Scholarly() {
       <motion.button
         onClick={() => handleClick("/Click.mp3")}
         onDoubleClick={handleDoubleClick} // Handle double-click
-        className={`flex items-center border-2 border-black place-content-center 
+        className={`hidden lg:flex items-center border-2 border-black place-content-center 
           bg-${trophyColor} rounded-lg w-20 h-20 hover:scale-95 transition duration-200`}
       >
         <MdOutlineEmojiEvents size={25} />

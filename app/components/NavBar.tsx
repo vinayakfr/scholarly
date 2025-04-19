@@ -3,18 +3,22 @@ import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@remix-run/react";
 import { CgDarkMode } from "react-icons/cg";
+import { PiHamburgerFill } from "react-icons/pi";
 
 export const NavBar = () => {
   return (
-    <div className="flex items-center justify-evenly z-0 w-full">
+    <div className="flex items-center justify-between lg:justify-evenly z-0 w-full">
       <h1 className="text-4xl font-black">Scholarly</h1>
       <SlideTabs />
       <div className="flex gap-4 items-center">
         <button className="flex items-center place-content-center rounded-full">
           <CgDarkMode className="size-7"/>
         </button>
+        <button>
+          <PiHamburgerFill className="lg:hidden size-7"/>
+        </button>
         <a href="/">
-          <button className="px-2 py-1 bg-black rounded-lg">
+          <button className="hidden lg:flex px-2 py-1 bg-black rounded-lg">
             <span className="text-lg text-white">Log Out</span>
           </button>
         </a>
@@ -38,7 +42,7 @@ const SlideTabs = () => {
             opacity: 0,
           }));
         }}
-        className="relative mx-auto flex w-fit rounded-full border-2 border-black bg-white p-1"
+        className="hidden lg:flex relative mx-auto w-fit rounded-full border-2 border-black bg-white p-1"
       >
         <Tabs setPosition={setPosition} route={"/dashboard"}>Home</Tabs>
         <Tabs setPosition={setPosition} route={"/profile"}>Profile</Tabs>
