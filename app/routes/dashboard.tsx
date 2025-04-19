@@ -4,7 +4,7 @@ import NewAchievement from "~/components/student/NewAchievement";
 
 function Dashboard() {
   const [showPopup, setShowPopup] = useState(false);
-  
+
   const handleAddClick = () => {
     setShowPopup(true);
   };
@@ -94,8 +94,8 @@ function Dashboard() {
           Add +
         </button>
       </div>
-      <div className="flex gap-5 justify-between w-full">
-        <div className="flex-1 bg-[#222] p-2 rounded-xl w-[70%]">
+      <div className="flex flex-col lg:flex-row gap-5 justify-between w-full">
+        <div className="flex-1 bg-[#222] p-2 rounded-xl lg:w-[70%]">
           <h1 className="text-2xl text-white font-semibold">Achievements</h1>
           <div className="flex flex-col gap-3 w-full mt-3 h-[15rem] overflow-y-auto">
             {myAchievements.map((myAchievements, index) => (
@@ -111,14 +111,12 @@ function Dashboard() {
         <div className="flex-1 border border-[#222] p-2 rounded-xl"></div>
       </div>
 
-      <div className="flex justify-stretch">
-        <div className="flex flex-col gap-5 mt-5 w-full">
-          <div className="grid grid-cols-4 grid-rows-1 gap-5 w-full">
-            <Cards topic={"ATS Score"} score={80} />
-            <Cards topic={"GPA"} score={90} />
-            <Cards topic={"Achievement Target"} score={70} />
-            <Cards topic={"Certificate Target"} score={70} />
-          </div>
+      <div className="flex flex-col gap-5 mt-5 w-full">
+        <div className="lg:grid lg:grid-cols-4 lg:grid-rows-1 flex flex-col gap-5 w-full">
+          <Cards topic={"ATS Score"} score={80} />
+          <Cards topic={"GPA"} score={90} />
+          <Cards topic={"Achievement Target"} score={70} />
+          <Cards topic={"Certificate Target"} score={70} />
         </div>
       </div>
 
