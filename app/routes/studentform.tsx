@@ -27,7 +27,7 @@ function StudentForm() {
 
   const register = async () => {
     try {
-      const response = await fetch("http://localhost:5050/api/profile", {
+      const response = await fetch("http://localhost:5050/api/profile/getprofiledetails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

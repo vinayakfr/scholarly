@@ -20,7 +20,7 @@ function Dashboard() {
   }) => {
     try {
       // Send the new achievement to the backend
-      const response = await fetch("http://localhost:5050/api/addachievement", {
+      const response = await fetch("http://localhost:5050/api/achievement/createachievements", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ function Dashboard() {
 
   const fetchAchievements = async () => {
     try {
-      const response = await fetch("http://localhost:5050/api/myachievements", {
+      const response = await fetch("http://localhost:5050/api/achievement/showachievements", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

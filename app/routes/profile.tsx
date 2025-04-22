@@ -22,7 +22,7 @@ function Profile() {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch("http://localhost:5050/api/profiledetails", {
+      const response = await fetch("http://localhost:5050/api/profile/showprofiledetails", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ function Profile() {
 
   const fetchTodo = async () => {
     try {
-      const response = await fetch("http://localhost:5050/api/todo", {
+      const response = await fetch("http://localhost:5050/api/todo/todos", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -5,51 +5,49 @@ function SignIn() {
   const [regnum, setRegnum] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    setMessage("");
 
     if (!regnum || !password) {
       setMessage("Please fill in all fields.");
       return;
     }
+
     if (regnum.length < 12) {
       setMessage("Registration number must be 12 characters long.");
       return;
     }
-    if (regnum[0] !== "R" || regnum[1] !== "A") {
+
+    if (!regnum.startsWith("RA")) {
       setMessage("Registration number must start with 'RA'.");
       return;
     }
 
     try {
-      // API call to authenticate the user
+      setLoading(true);
       const response = await fetch("http://localhost:5050/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ regnum: regnum, password }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ regnum, password }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          console.log("Success");
-          setMessage("Success");
-          // Redirect to dashboard
+      const data = await response.json();
+      if (response.ok && data.data?.token) {
+        setMessage("Login successful. Redirecting...");
+        setTimeout(() => {
           window.location.href = "/dashboard";
-        } else {
-          console.log("Failure");
-          setMessage("Failure");
-        }
+        }, 1000);
       } else {
-        console.log("Failure");
-        setMessage("Failure");
+        setMessage(data.message || "Invalid credentials or user not registered.");
       }
     } catch (error) {
-      console.error("Error:", error);
-      setMessage("Request access from your faculty in order to proceed");
+      console.error("Error during login:", error);
+      setMessage("Request access from your faculty in order to proceed.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,22 +58,23 @@ function SignIn() {
         <h1 className="text-3xl text-white font-semibold text-center">
           Log in to your account
         </h1>
+
         <form className="flex flex-col gap-4 w-full" onSubmit={handleSignIn}>
           <label htmlFor="regnum" className="text-lg text-white font-medium">
             Registration Number
           </label>
           <input
             type="text"
-            id="text"
-            name="text"
+            id="regnum"
+            name="regnum"
             value={regnum}
             onChange={(e) => setRegnum(e.target.value)}
-            className="text-white bg-white/20 border-gray-300 rounded p-2 w-full"
+            className="text-white bg-white/20 border border-gray-300 rounded p-2 w-full"
             placeholder="Enter your registration number"
             required
           />
 
-          <label htmlFor="password" className="text-white text-lg font-medium">
+          <label htmlFor="password" className="text-lg text-white font-medium">
             Password
           </label>
           <input
@@ -84,17 +83,19 @@ function SignIn() {
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="text-white bg-white/20 border-gray-300 rounded p-2 w-full"
+            className="text-white bg-white/20 border border-gray-300 rounded p-2 w-full"
             placeholder="Enter your password"
             required
           />
+
           <button
-            onClick={handleSignIn}
             type="submit"
             className="bg-blue-500 text-white rounded p-2 mt-4 hover:bg-blue-600 w-full"
+            disabled={loading}
           >
-            Log In
+            {loading ? "Logging in..." : "Log In"}
           </button>
+
           {message && (
             <p className="text-center text-red-500 mt-2">{message}</p>
           )}
