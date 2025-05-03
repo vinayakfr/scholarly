@@ -3,7 +3,7 @@ import PixelCard from "~/components/PixelCard";
 
 function SignIn() {
   const [regnum, setRegnum] = useState("");
-  const [password, setPassword] = useState("");
+  const [aadhaar, setAadhaar] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -11,31 +11,17 @@ function SignIn() {
     e.preventDefault();
     setMessage("");
 
-    if (!regnum || !password) {
-      setMessage("Please fill in all fields.");
-      return;
-    }
-
-    if (regnum.length < 12) {
-      setMessage("Registration number must be 12 characters long.");
-      return;
-    }
-
-    if (!regnum.startsWith("RA")) {
-      setMessage("Registration number must start with 'RA'.");
-      return;
-    }
-
     try {
       setLoading(true);
       const response = await fetch("http://localhost:5050/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ regnum, password }),
+        body: JSON.stringify({ regnum, aadhaar }),
       });
 
       const data = await response.json();
       if (response.ok && data.data?.token) {
+        localStorage.setItem("token", data.data.token);
         setMessage("Login successful. Redirecting...");
         setTimeout(() => {
           window.location.href = "/dashboard";
@@ -81,10 +67,10 @@ function SignIn() {
             type="password"
             id="password"
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={aadhaar}
+            onChange={(e) => setAadhaar(e.target.value)}
             className="text-white bg-white/20 border border-gray-300 rounded p-2 w-full"
-            placeholder="Enter your password"
+            placeholder="Enter your aadhaar"
             required
           />
 

@@ -15,20 +15,20 @@ function Dashboard() {
 
   const handleAddAchievement = async (newAchievement: {
     title: string;
-    des: string;
+    description: string;
     date: string;
   }) => {
     try {
-      // Send the new achievement to the backend
-      const response = await fetch("http://localhost:5050/api/achievement/createachievements", {
+      const response = await fetch("http://localhost:5050/api/achievement", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the token
         },
         body: JSON.stringify({
-          achievement: newAchievement.title,
-          achievedate: newAchievement.date,
-          achievedesc: newAchievement.des,
+          title: newAchievement.title, // Match the backend field
+          date: newAchievement.date, // Match the backend field
+          description: newAchievement.description, // Match the backend field
         }),
       });
 
@@ -38,6 +38,9 @@ function Dashboard() {
 
       const data = await response.json();
       console.log("Achievement added successfully:", data);
+
+      // Optionally, refresh the achievements list after adding a new one
+      fetchAchievements();
 
       // Close the popup
       setShowPopup(false);
@@ -58,12 +61,30 @@ function Dashboard() {
 
   const fetchAchievements = async () => {
     try {
-      const response = await fetch("http://localhost:5050/api/achievement/showachievements", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.log("No token found. Redirecting to login...");
+        window.location.href = "/signin";
+        return;
+      }
+
+      const response = await fetch(
+        "http://localhost:5050/api/achievement",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 401) {
+        console.log("Token expired. Redirecting to login...");
+        localStorage.removeItem("token");
+        window.location.href = "/signin";
+        return;
+      }
 
       if (!response.ok) {
         console.log("Error loading achievements!");
@@ -73,7 +94,7 @@ function Dashboard() {
       const achievements = await response.json();
       console.log("Achievements fetched successfully!", achievements);
 
-      setMyAchievements(achievements.data);
+      setMyAchievements(achievements.data); // Update the state with the fetched achievements
     } catch (error) {
       console.log("Cannot fetch achievements!", error);
     }
@@ -150,7 +171,7 @@ const Achievments = ({
     <div className="flex-1 h-40 bg-white p-2 rounded-xl">
       <h1 className="font-semibold">{title}</h1>
       <p>{des}</p>
-      <p>{new Date(date).toDateString()}</p>
+      <p>{date}</p>
     </div>
   );
 };
