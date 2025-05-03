@@ -10,24 +10,24 @@ function StudentForm() {
   };
 
   const [profile, setProfile] = React.useState({
-    name: "",
-    email: "",
-    regnum: "",
-    phone: "",
-    dob: "",
-    aadhaar: "",
-    section: "",
-    department: "",
-    degree: "",
-    sem: "",
-    address: "",
-    city: "",
-    state: "",
+    regnum : "",
+    name : "",
+    email : "",
+    phone : "",
+    dob : "",
+    aadhaar : "",
+    degree : "",
+    section : "",
+    sem : "",
+    addressline1 : "",
+    addressline2 : "",
+    state : "",
+    pincode : "",
   });
 
   const register = async () => {
     try {
-      const response = await fetch("http://localhost:5050/api/profile/getprofiledetails", {
+      const response = await fetch("http://localhost:5050/api/profile/profiledetails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -146,50 +146,6 @@ function StudentForm() {
                 setProfile({ ...profile, degree: e.target.value })
               }
             />
-            <div>
-              <label
-                htmlFor="department"
-                className="text-lg text-white font-medium"
-              >
-                Department
-              </label>
-              <select
-                id="department"
-                name="department"
-                value={profile.department}
-                onChange={(e) =>
-                  setProfile({ ...profile, department: e.target.value })
-                }
-                className="text-white bg-white/20 border-gray-300 rounded p-2 w-full"
-                required
-              >
-                <option value="" disabled>
-                  Select your department
-                </option>
-                <option value="Computer Science">Computer Science</option>
-                <option value="Mechanical Engineering">
-                  Mechanical Engineering
-                </option>
-                <option value="Electrical Engineering">
-                  Electrical Engineering
-                </option>
-                <option value="Civil Engineering">Civil Engineering</option>
-                <option value="Electronics and Communication">
-                  Electronics and Communication
-                </option>
-                <option value="Information Technology">
-                  Information Technology
-                </option>
-                <option value="Biotechnology">Biotechnology</option>
-                <option value="Chemical Engineering">
-                  Chemical Engineering
-                </option>
-                <option value="Physics">Physics</option>
-                <option value="Mathematics">Mathematics</option>
-                <option value="Management Studies">Management Studies</option>
-                <option value="Architecture">Architecture</option>
-              </select>
-            </div>
             <TextField
               heading="Current Semester"
               type="text"
@@ -216,20 +172,20 @@ function StudentForm() {
         {form === 2 && (
           <div className="flex flex-col gap-5 bg-gray-900/20 border border-white/20 p-5 rounded-lg">
             <TextField
-              heading="Address"
+              heading="Address Line 1"
               type="text"
-              placeholder="Enter address"
-              value={profile.address}
+              placeholder="Address Line 1"
+              value={profile.addressline1}
               onChange={(e) =>
-                setProfile({ ...profile, address: e.target.value })
+                setProfile({ ...profile, addressline1: e.target.value })
               }
             />
             <TextField
-              heading="City"
+              heading="Address Line 2"
               type="text"
-              placeholder="Enter city"
-              value={profile.city}
-              onChange={(e) => setProfile({ ...profile, city: e.target.value })}
+              placeholder="Address Line 2"
+              value={profile.addressline2}
+              onChange={(e) => setProfile({ ...profile, addressline2: e.target.value })}
             />
             <TextField
               heading="State"
