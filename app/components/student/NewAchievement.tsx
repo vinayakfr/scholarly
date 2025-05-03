@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 
 interface NewAchievementProps {
-  onAddAchievement: (achievement: { title: string; des: string; date: string }) => void;
+  onAddAchievement: (achievement: { title: string; description: string; date: string }) => void;
   handleClosePopup: () => void;
 }
 
 function NewAchievement({ onAddAchievement, handleClosePopup }: NewAchievementProps) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
-  const [details, setDetails] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleSave = () => {
-    if (title && date && details) {
-      onAddAchievement({ title, des: details, date });
+    if (title && date && description) {
+      onAddAchievement({ title, description, date });
     }
   };
 
@@ -49,8 +49,8 @@ function NewAchievement({ onAddAchievement, handleClosePopup }: NewAchievementPr
         </label>
         <textarea
           id="details"
-          value={details}
-          onChange={(e) => setDetails(e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           maxLength={100}
           className="rounded-xl text-xl p-2"
           placeholder="Enter Details"
