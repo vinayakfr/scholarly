@@ -107,7 +107,7 @@ export default function Carousel({
     };
   }, [baseWidth]);
 
-  const containerPadding = 16;
+
   const trackItemOffset = itemWidth + GAP;
 
   const carouselItems = loop ? [...items, items[0]] : items;

@@ -45,7 +45,7 @@ const SlideTabs = () => {
         className="hidden lg:flex relative mx-auto w-fit rounded-full border-2 border-black bg-white p-1"
       >
         <Tabs setPosition={setPosition} route={"/dashboard"}>Home</Tabs>
-        <Tabs setPosition={setPosition} route={"/profile"}>Profile</Tabs>
+        <Tabs setPosition={setPosition} route={""}>Route 2</Tabs>
         <Tabs setPosition={setPosition} route={""}>Route 3</Tabs>
         <Tabs setPosition={setPosition} route={""}>Route 3</Tabs>
         <Cursor position={position} />
